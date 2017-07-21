@@ -12,7 +12,9 @@
 
 @import url("../accelerate-theme/style.css");
 
+/* ----------------------------------- */
 /* Homepage Styles child theme changes */
+/* ----------------------------------- */
 .home-page {
     background: url("img/taxi-photo.jpg") no-repeat scroll left center / cover rgba(0, 0, 0, 0);
 }
@@ -20,17 +22,28 @@
 #masthead {
     background: none repeat scroll 0 0 #45ac9d;
 }
+#masthead nav ul{
+  text-transform: uppercase;
+}
+#masthead nav ul a:hover{
+  font-weight: bold;
+}
 
 .button {
     background: none repeat scroll 0 0 #45ac9d;
 }
-
-#masthead nav ui li{
-	float: left;
+div.menu-top-nav-container{
+	float: right;
+	margin:0 10px;
+}
+div.menu-top-nav-container ul li{
+	float: right;
 	margin:0 10px;
 }
 
-/* Under the image - Featured Works section */
+/* ----------------------------------- */
+/* Under the image - Featured Works / Case Studies section */
+/* ----------------------------------- */
 section.featured-work h4{
   text-align: center;
   font-size: 1.5em;
@@ -61,12 +74,14 @@ li.individual-featured-work{
   text-align: center;
 }*/
 
-
-  /*Under the image - most recent post style*/
+/* ----------------------------------- */
+/*Under the image - most recent post style*/
+/* ----------------------------------- */
 
 .blog-post {
-	width: 50%;
+	width: 45%;
   clear: both;
+  float: left;
 }
 
 .blog-post h4 {
@@ -74,7 +89,6 @@ li.individual-featured-work{
 	font-family: 'Montserrat';
 	color: #a6a6a6;
 	text-transform: uppercase;
-
 }
 
 .blog-post h2 {
@@ -83,15 +97,71 @@ li.individual-featured-work{
 	font-weight: bold;
 }
 
-.blog-post .read-more-link {
+.blog-post .read-more-link,
+.twitter-sidebar .read-more-link {
 	font-size: 16px;
 	font-family: 'Montserrat';
 	font-weight: bold;
 	color: #45ac9d;
 	text-transform: uppercase;
 }
+.blog-post .read-more-link{
+  margin: 0;
+}
+.twitter-sidebar .read-more-link{
+  margin: 0 40px;
+}
+/*a.read-more-link{
+  padding: 0 40px;
+}*/
 
-/* Case Study Styles*/
+.twitter-sidebar{
+  width: 45%;
+  float: left;
+  margin-left: 5%;
+}
+div.twitter-sidebar h3.widget-title {
+  font-size: 24px;
+  font-family: 'Montserrat';
+  font-weight: bold;
+  color: #3b3b3b;
+  line-height: 1;
+  margin: 36px 0 12px;
+}
+div#homepage-sidebar2 h4.recent-tweet{
+	font-size: 16px;
+	font-family: 'Montserrat';
+	color: #a6a6a6;
+	text-transform: uppercase;
+  margin: 36px 0 12px;
+  padding: 0 40px;
+}
+ul.tweets{
+  list-style: none;
+  margin-left: 0;
+}
+
+/* ----------------------------------- */
+/* Footer Social Media Icon Link Styles*/
+/* ----------------------------------- */
+ul#menu-social-media-nav.social-media-menu{
+  list-style: none;
+  float: right;
+}
+ul#menu-social-media-nav.social-media-menu li{
+  display: inline;
+  margin-left: 10px;
+  font-size: .75em;
+}
+  ul#menu-social-media-nav.social-media-menu li a:hover{
+    color: #45ac9d;
+  }
+
+
+
+/* ----------------------------------- */
+/* Case Study Single Page Styles*/
+/* ----------------------------------- */
 
 article.case-study {
 	margin: 40px 0 0;
@@ -112,7 +182,10 @@ div.case-study-images img{
 	border: 1px solid #ddd;
 }
 
+/* ----------------------------------- */
 /* Case Study Archive Page Styles*/
+/* ----------------------------------- */
+
 h1.case-study-archives{
   color: #3b3b3b;
   text-align: center;
@@ -126,3 +199,166 @@ aside.case-study-sidebar h5{
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+/* ----------------------------------- */
+/* Contact Form Page Styles*/
+/* ----------------------------------- */
+/*div#nf-field-1-wrap.field-wrap.textbox-wrap.{
+  clear:both;
+  width: 45%;
+  float: left;
+}*/
+/*div#nf-field-1-wrap.field-wrap.textbox-wrap.label-above{
+  float: left;
+}*/
+/*div#nf-field-2-wrap.field-wrap.email-wrap.label-above{
+  clear:both;
+  width: 45%;
+  float: left;
+}*/
+/*div#nf-field-3-wrap.field-wrap.textarea-wrap{
+  clear:both;
+  width: 90%;
+}*/
+/*textarea#nf-field-3.contact-msg{
+  width: 100%;
+}*/
+#nf-form-1-cont {
+ /*background-color: #ddd; */
+ /* One can use hex code such as # #FF4500 or rgb(255,69,0) or just the name orange. */
+ padding: 15px;
+ box-shadow: 0px 3px 5px #ddd;
+ /* Creates a shadow around the form. */
+ border-radius: 2px;
+ /* Creates curved corners. */
+ }
+
+/*Change the labels to be a smaller font size and regular font weight.*/
+
+div.nf-field-label label {
+    font-weight: normal;
+    font-size: 95%;
+    margin: 0;
+    padding: 0;
+}
+/*Style the Send button and float it right.*/
+input#nf-field-4.button{
+  float: right;
+  padding: 10px;
+  border-radius: 5px;
+}
+/*Make the whole thing (including the header and text) more narrow.*/
+
+div#content.contact-page{
+  width: 80%;
+}
+/*adding fun icons to the form*/
+/* Name field */
+#nf-field-1-wrap:before {
+ font-family: 'FontAwesome';
+ content: "\f1ae"; /* Icon name */
+ padding: 2px 7px 0 0;
+}
+
+/* Email field */
+#nf-field-2-wrap:before {
+ font-family: 'FontAwesome';
+ content: "\f2ba"; /* Icon name */
+ padding: 2px 7px 0 0;
+}
+
+/* Phone field */
+#nf-field-20-wrap:before {
+ font-family: 'FontAwesome';
+ content: "\f095"; /* Icon name */
+ padding: 2px 7px 0 0;
+}
+
+/* Message field */
+#nf-field-3-wrap:before {
+ font-family: 'FontAwesome';
+ content: "\f075"; /* Icon name */
+ padding: 2px 7px 0 0;
+}
+
+
+/* ----------------------------------- */
+/* About Page Styles*/
+/* ----------------------------------- */
+section#content.about-page{
+  width: 100%;
+}
+
+.about-page {
+    background: url("img/taxi-photo.jpg") no-repeat scroll left center / cover rgba(0, 0, 0, 0);
+    height: auto;
+}
+span.accelerate-teal{
+  color: teal;
+  font-weight: bold;
+}
+.aboutpage-hero{
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 75%;
+  margin: 20px auto;
+}
+div.service-row{
+  width: 90%;
+  margin: 10px auto;
+  clear: both;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+div.service-row.post-list-even {
+  display: flex;
+  flex-direction: row-reverse;
+}
+div.service-img{
+  width: 30%;
+  float: left;
+  margin-bottom: 20px;
+  display: flex;
+}
+div.service-info{
+  width: 60%;
+  float: left;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.service-list{
+  list-style: none;
+}
+.about-aside{
+  clear: both;
+  width: 95%;
+}
+h3.about-aside{
+  font-style: italic;
+  padding: 20px;
+  margin-left: 20px;
+  text-align: center;
+  float: left;
+  width: 45%;
+}
+aside.about-aside a.button{
+  float: left;
+  width: 30%;
+  margin-top: 30px;
+}
+p.service-desc{
+  padding-right: 25px;
+}
+/*img.service-img{
+  float: left;
+}*/
+.img-circle{
+  border-radius: 50%;
+}
+
+/* ----------------------------------- */
+/* mailchimp newsletter signup Styles*/
+/* ----------------------------------- */

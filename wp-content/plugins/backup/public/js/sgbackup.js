@@ -1,6 +1,6 @@
 SG_ACTIVE_DOWNLOAD_AJAX = '';
 SG_DOWNLOAD_PROGRESS_AJAX = '';
-SG_CHECK_ACTION_STATUS_REQUEST_FREQUENCY = 4000;
+SG_CHECK_ACTION_STATUS_REQUEST_FREQUENCY = 2500;
 
 jQuery(document).on('change', '.btn-file :file', function() {
     var input = jQuery(this),

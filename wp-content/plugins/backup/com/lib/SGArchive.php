@@ -297,7 +297,8 @@ class SGArchive
 	private function isEnoughFreeSpaceOnDisk($dataSize)
 	{
 		$freeSpace = @disk_free_space(SG_APP_ROOT_DIRECTORY);
-		if ($freeSpace === false) {
+
+		if ($freeSpace === false || $freeSpace === null) {
 			return true;
 		}
 
