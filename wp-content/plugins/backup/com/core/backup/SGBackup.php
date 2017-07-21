@@ -233,6 +233,8 @@ class SGBackup implements SGIBackupDelegate
 		$actions = self::getRunningActions();
 		if (count($actions)) {
 			$action = $actions[0];
+			$method = $params['method'];
+
 			$this->state = backupGuardLoadStateData();
 
 			if ($action['type'] == SG_ACTION_TYPE_RESTORE) {
@@ -240,7 +242,7 @@ class SGBackup implements SGIBackupDelegate
 			}
 			else {
 				$options = json_decode($action['options'], true);
-				$this->backup($options, $this->state);
+				$this->backup($options, $this->state, $method);
 			}
 		}
 	}
@@ -255,8 +257,31 @@ class SGBackup implements SGIBackupDelegate
 		return $this->token;
 	}
 
+	private function reloadMethodNameByMethodId($method)
+	{
+		$name = "none";
+		switch ($method) {
+			case SG_RELOAD_METHOD_STREAM:
+				$name = "stream";
+				break;
+			case SG_RELOAD_METHOD_CURL:
+				$name = "curl";
+				break;
+			case SG_RELOAD_METHOD_SOCKET:
+				$name = "socket";
+				break;
+			case SG_RELOAD_METHOD_AJAX:
+				$name = "ajax";
+				break;
+			default:
+				break;
+		}
+
+		return $name;
+	}
+
 	/* Backup implementation */
-	public function backup($options, $state = false)
+	public function backup($options, $state = false, $reloadMethod = null)
 	{
 		SGPing::update();
 
@@ -272,6 +297,9 @@ class SGBackup implements SGIBackupDelegate
 			$this->prepareBackupFolder(SG_BACKUP_DIRECTORY.$this->fileName);
 			$this->prepareForBackup($options);
 			$this->prepareBackupReport();
+
+			SGBackupLog::write("Reload method set to ajax");
+			SGConfig::set('SG_RELOAD_METHOD', SG_RELOAD_METHOD_AJAX, true);
 
 			if ($this->databaseBackupAvailable) {
 				$this->prepareDBStateFile();
@@ -296,6 +324,13 @@ class SGBackup implements SGIBackupDelegate
 			$this->prepareBackupLogFile(SG_BACKUP_DIRECTORY.$this->fileName, true);
 			$this->setBackupPaths();
 			$this->prepareAdditionalConfigurations();
+
+			$method = SGConfig::get('SG_RELOAD_METHOD');
+			if ($method != $reloadMethod) {
+				SGConfig::set('SG_RELOAD_METHOD', $reloadMethod);
+				$reloadMethod = $this->reloadMethodNameByMethodId($reloadMethod);
+				SGBackupLog::write("Reload method changed to ".$reloadMethod);
+			}
 		}
 
 		SGPing::update();
@@ -514,7 +549,7 @@ class SGBackup implements SGIBackupDelegate
 
 		if (!$exists)
 		{
-			$content = self::getLogFileHeader(SG_ACTION_TYPE_BACKUP);
+			$content = self::getLogFileHeader(SG_ACTION_TYPE_BACKUP, $this->fileName);
 
 			$types = array();
 			if ($this->filesBackupAvailable)
@@ -636,6 +671,10 @@ class SGBackup implements SGIBackupDelegate
 
 		SGBackupLog::write('Total duration: '.backupGuardFormattedDuration($this->actionStartTs, time()));
 
+		$archiveSizeInBytes = backupGuardRealFilesize($this->filesBackupPath);
+		$archiveSize = self::convertToReadableSize($archiveSizeInBytes);
+		SGBackupLog::write("Archive size: ".$archiveSize." (".$archiveSizeInBytes." bytes)");
+
 		$this->cleanUp();
 		if (SGBoot::isFeatureAvailable('NUMBER_OF_BACKUPS_TO_KEEP')) {
 			backupGuardOutdatedBackupsCleanup(SG_BACKUP_DIRECTORY);
@@ -750,7 +789,7 @@ class SGBackup implements SGIBackupDelegate
 		$this->restoreLogPath = $file;
 
 		if (!$exists) {
-			$content = self::getLogFileHeader(SG_ACTION_TYPE_RESTORE);
+			$content = self::getLogFileHeader(SG_ACTION_TYPE_RESTORE, $this->fileName);
 
 			$content .= PHP_EOL;
 
@@ -828,7 +867,7 @@ class SGBackup implements SGIBackupDelegate
 
 	/* General methods */
 
-	public static function getLogFileHeader($actionType)
+	public static function getLogFileHeader($actionType, $fileName)
 	{
 		$confs = array();
 		$confs['sg_backup_guard_version'] = SG_BACKUP_GUARD_VERSION;
@@ -889,6 +928,14 @@ class SGBackup implements SGIBackupDelegate
 		$content .= 'Memory limit: '.$confs['memory_limit'].PHP_EOL;
 		$content .= 'Max execution time: '.$confs['max_execution_time'].PHP_EOL;
 		$content .= 'Disk free space: '.$confs['free_space'].PHP_EOL;
+
+		if ($actionType == SG_ACTION_TYPE_RESTORE) {
+			$archivePath = SG_BACKUP_DIRECTORY.$fileName.'/'.$fileName.'.sgbp';
+			$archiveSizeInBytes = backupGuardRealFilesize($archivePath);
+			$confs['archiveSize'] = self::convertToReadableSize($archiveSizeInBytes);
+			$content .= 'Archive Size: '.$confs['archiveSize'].' ('.$archiveSizeInBytes.' bytes)'.PHP_EOL;
+		}
+
 		$content .= 'Environment: '.$confs['env'].PHP_EOL;
 
 		return $content;

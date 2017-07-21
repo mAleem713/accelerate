@@ -18,7 +18,7 @@ get_header(); ?>
 	<div class="site-content">
 		<!-- // start of the loop. -->
 		<?php while ( have_posts() ) : the_post(); ?>
-			<div class='homepage-hero'>
+			<div class="homepage-hero">
 				<?php the_content(); ?>
 				<a class="button" href="<?php echo home_url(); ?>/blog">View Our Work</a>
 			</div>
@@ -69,5 +69,20 @@ get_header(); ?>
 		</div>
 	</div>
 </section>
+
+<!-- STEP 3: Mod16 ADD THE NEW DYNAMIC SIDEBAR TO YOUR FRONT-PAGE.PHP TEMPLATE -->
+<!-- Now you need to add some code to your front-page.php file that will display your new dynamic sidebar. -->
+<section class="homepage-twitter-feed">
+	<div id="homepage-sidebar2" class="twitter-sidebar">
+		<?php if ( is_active_sidebar( 'sidebar-2') ): ?>
+			<div id="secondary" class="widget-area" role="complementary">
+				<h4 class="recent-tweet">Recent Tweets</h4>
+				<?php dynamic_sidebar('sidebar-2'); ?>
+				<a class="read-more-link" href="https://twitter.com/maleem713">Follow Me <span>&rsaquo;</span></a>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
 
 <?php get_footer(); ?>

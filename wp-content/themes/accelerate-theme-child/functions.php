@@ -28,6 +28,13 @@
  * @since Accelerate Marketing 1.0
  */
 
+ // Load Font Awesome
+  add_action( 'wp_enqueue_scripts', 'enqueue_font_awesome' );
+  function enqueue_font_awesome() {
+  wp_enqueue_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css' );
+  }
+
+
  // STEP 2: CREATE YOUR NEW CUSTOM POST TYPE
  // Next you need to create your new custom post type.
  function create_custom_post_types() {
@@ -44,3 +51,19 @@
   );
  }
  add_action( 'init', 'create_custom_post_types' );
+
+ // STEP 2:Mod16 CREATE A NEW DYNAMIC SIDEBAR
+ // Create a new dynamic sidebar by adding the following code to your functions.php file:
+  function accelerate_theme_child_widget_init(){
+
+    register_sidebar ( array(
+      'name' =>__( 'Homepage sidebar','accelerate-theme-child'),
+      'id' => 'sidebar-2',
+      'description' =>__( 'Appears on the static front page template', 'accelerate-theme-child'),
+      'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+      'after_widget' => '</aside>',
+      'before_title' => '<h3 class="widget-title">',
+      'after_title' => '</h3>',
+    ));
+  }
+  add_action('widgets_init', 'accelerate_theme_child_widget_init');

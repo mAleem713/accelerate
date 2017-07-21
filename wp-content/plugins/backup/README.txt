@@ -1,6 +1,7 @@
-===BackupGuard - WordPress Backup and Migrate Plugin===
-Plugin Name: BackupGuard - WordPress Backup and Migrate Plugin
-Contributors: BackupGuard
+=== WordPress Backup and Migrate Plugin - BackupGuard ===
+Plugin Name: WordPress Backup and Migrate Plugin - BackupGuard
+Contributors: Backup Guard, Backup Guard Support
+Author: Backup Guard
 Donate link: https://backup-guard.com/products/backup-wordpress
 Tags: backup, backup plugin, site backup, database backup, migrate
 Requires at least: 3.8
@@ -149,6 +150,12 @@ When you are facing an issue of any kind with any of our products, the first thi
 6.  Site backup customization
 
 == Changelog ==
+
+= 1.1.46 =
+* Disk free space related issue resolved
+* Archive size is being written in the backup/restore log files
+* Tracking reloads and writing a respective log in case method is being changed
+* Other minor improvements
 
 = 1.1.45 =
 * Disk free space detection detection related bug was resolved

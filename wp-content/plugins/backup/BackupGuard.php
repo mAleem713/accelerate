@@ -276,12 +276,14 @@ add_action('init', 'backup_guard_init');
 
 function backup_guard_awake()
 {
+	$method = SG_RELOAD_METHOD_AJAX;
 	require_once(SG_PUBLIC_AJAX_PATH.'awake.php');
 }
 
 function backup_guard_awake_nopriv()
 {
 	$token = @$_GET['token'];
+	$method = @$_GET['method'];
 
 	if (backupGuardValidateApiCall($token)) {
 		require_once(SG_PUBLIC_AJAX_PATH.'awake.php');

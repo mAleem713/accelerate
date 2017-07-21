@@ -24,7 +24,7 @@ class SGReloadHandler
 		}
 
 		$this->reloadMethod = SGConfig::get('SG_RELOAD_METHOD');
-		if ($this->reloadMethod === null) {
+		if ($this->reloadMethod === null || $this->reloadMethod == SG_RELOAD_METHOD_AJAX) {
 			$this->setBestReloadMethod();
 		}
 	}
@@ -63,8 +63,6 @@ class SGReloadHandler
 			$method = SG_RELOAD_METHOD_SOCKET;
 		}
 
-		SGConfig::set('SG_RELOAD_METHOD', $method, true);
-
 		$this->reloadMethod = $method;
 	}
 
@@ -72,7 +70,6 @@ class SGReloadHandler
 	{
 		//$this->reloadUsingSocket();
 		//return;
-
 		$transport = $this->scheme=='http'?'tcp':'ssl';
 		$addr = $this->host;
 
@@ -90,7 +87,7 @@ class SGReloadHandler
 			return false;
 		}
 
-		$out = "GET ".$this->url." HTTP/1.1\r\n";
+		$out = "GET ".$this->url."&method=".SG_RELOAD_METHOD_STREAM." HTTP/1.1\r\n";
 		$out .= "Host: ".$this->host."\r\n";
 		$out .= "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8\r\n";
 		$out .= "Connection: Close\r\n\r\n";
@@ -105,7 +102,7 @@ class SGReloadHandler
 		$this->reloadUsingStream();
 		return;
 
-		$url = $this->scheme.'://'.$this->host.$this->url;
+		$url = $this->scheme.'://'.$this->host.$this->url."&method=".SG_RELOAD_METHOD_CURL;
 		if (strpos($url, '?action=backup_guard_manualBackup')===FALSE) {
 			$url .= '?action=backup_guard_manualBackup';
 		}
@@ -138,7 +135,7 @@ class SGReloadHandler
 			return false;
 		}
 
-		$out = "GET ".$this->url." HTTP/1.1\r\n";
+		$out = "GET ".$this->url."&method=".SG_RELOAD_METHOD_SOCKET." HTTP/1.1\r\n";
 		$out .= "Host: ".$this->host."\r\n";
 		$out .= "Connection: Close\r\n\r\n";
 
